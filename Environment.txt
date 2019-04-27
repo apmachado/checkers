@@ -1,0 +1,31 @@
+﻿Classes e métodos principais
+
+
+Main:
+* Inicializa GameController
+
+
+GameController:
+* Inicializa demais classes e gerencia o gameloop
+
+
+Player(IA e Humano):
+* Responsável por fazer ações, isto é, definir o estado seguinte a ser utilizado pelo gameloop
+
+
+* IA:
+   * Determinará tais ações usando técnicas de busca MinMax e MCTS,
+   * Responsável pelo método de buscar todas as ações possíveis proveninentes de um estado
+   * Responsável pela função de avaliação, determinar o quanto tal estado é “melhor” ou “pior” para si mesma
+
+
+* Humano:
+   * Determinará tais ações baseado por inputs do usuário(coordenada da peça a ser movida e coordenada destino)
+
+
+Rules:
+* Responsável por julgar as ações propostas pela classe Player, retorna o estado resultante caso ação seja válida
+
+
+State:
+* Determina o estado atual do jogo, isto é, todas as informações necessárias para que a classe PlayerIA faça as buscas necessárias para jogar
