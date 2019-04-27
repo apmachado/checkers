@@ -13,7 +13,7 @@ O tabuleiro e sua disposição
 Ordem de jogada
 
 1.5 - Para iniciar, os jogadores decidem por seleção aleatória quem irá escolher a sua cor.<br>
-1.6 - O primeiro movimento é feito pelo jogador com as peças claras e seguida os jogadores vão alternando as jogadas a cada turno;
+1.6 - O primeiro movimento é feito pelo jogador com as peças claras e seguida os jogadores vão alternando as jogadas a cada turno.
 
 Os movimentos
 
@@ -57,13 +57,13 @@ Resultado do jogo
 
 Definição de vitória
 
-1.19 - O jogo é vencido pelo jogador que pode fazer o último movimento; ou seja, não existe nenhum movimento disponível para o oponente no seu turno, seja por suas peças terem sido todas capturada ou pelas suas peças remanescentes estarem todas bloqueadas.
+1.19 - O jogo é vencido pelo jogador que pode fazer o último movimento, ou seja, não existe nenhum movimento disponível para o oponente no seu turno, seja por suas peças terem sido todas capturada ou pelas suas peças remanescentes estarem todas bloqueadas.
 
 Definição de empate
 
 1.20 - O jogo é empatado se, em qualquer estágio do jogo as duas condições abaixo forem satisfeitas:
 
-Nenhum dos jogadores colocar uma de suas peças comuns na linha da dama, transformando sua peça comum em dama por, pelo menos, os últimos 40 movimentos;
+Nenhum dos jogadores colocar uma de suas peças comuns na linha da dama, transformando sua peça comum em dama por, pelo menos, os últimos 40 movimentos.
 
-Nenhum dos jogadores teve uma de suas peças removidas por, pelo menos, os últimos 40 movimentos;
+Nenhum dos jogadores teve uma de suas peças removidas por, pelo menos, os últimos 40 movimentos.
 

@@ -1,9 +1,9 @@
 class Piece
-  attr_accessor :team, :king
+  attr_accessor :team, :queen
   
   def initialize(team)
     @team = team
-    @king = false
+    @queen = false
     
   end
 end
