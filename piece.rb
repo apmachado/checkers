@@ -1,9 +1,10 @@
 class Piece
-  attr_accessor :team, :queen
+  attr_accessor :team, :king, :x, :y
   
-  def initialize(team)
+  def initialize(team, x, y)
     @team = team
-    @queen = false
-    
+    @king = false
+    @x = x
+    @y = y
   end
 end
