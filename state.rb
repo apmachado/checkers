@@ -13,7 +13,7 @@ class State
     @pieces_player1 = []
     @pieces_player2 = []
 
-    table=[[-1, 2, -1, 2, -1, 2, -1, 2],
+    @table=[[-1, 2, -1, 2, -1, 2, -1, 2],
               
           [2, -1, 2, -1, 2, -1, 2, -1],
 
@@ -118,20 +118,5 @@ class State
     
     self.dup()
 
-  end
-
-  def table
-    table = (0...8).map do |i|
-      (0...8).map { |j| ((j + i) % 2 == 0) ? -1 : 0 }
-    end
-
-    pieces_player1.each do |piece|
-      table[piece.x][piece.y] = 1
-    end
-    pieces_player2.each do |piece|
-      table[piece.x][piece.y] = 2
-    end
-
-    table
   end
 end

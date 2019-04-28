@@ -1,5 +1,5 @@
 class Display
-  attr_accessor  :board
+  attr_accessor  :state
 
   TOPO_EDGE = "\u2581"
   BOTTON_EDGE = "\u2594"
@@ -14,16 +14,8 @@ class Display
 
   CHARS = { -1 => EMPTY, 0 => BLACK,  1 => P1_CHAR, 2 => P2_CHAR, 3 => P1_KING, 4 => P2_KING }
 
-  def set_board(table)
-    @board = table
-  end
-
-  def draw_score
-    print " \u25F7  P1\n\n"
-    print "    P2\n\n"
-  end
-
-  def draw
+  def draw(state)
+    @state = state
     print "=" * 40
     print "\n"
 
@@ -42,12 +34,22 @@ class Display
 
   private
 
+  def draw_score
+    if state.turn == 1
+      print " \u25F7  P1\n\n"
+      print "    P2\n\n"
+    else
+      print "    P1\n\n"
+      print " \u25F7  P2\n\n"
+    end
+  end
+
   def index_to_letter(index)
     (index + 65).chr
   end
 
   def draw_line
-    board.each_with_index do |line, index|
+    state.table.each_with_index do |line, index|
       print "  \u2551  #{index_to_letter index}\u2595"
       line.each { |cell| print CHARS[cell] }
       print "\u258F  \u2551\n"

@@ -27,7 +27,7 @@ class Rules
   end
 
   def invalid_destination(piece_x, piece_y, dest_x, dest_y, piece)
-    if(piece_team == 1)
+    if(piece_team(piece) == 1)
       if(((dest_x) != piece_x - 1) || (dest_y - piece_y).abs() != 1)
         return true
       else
@@ -80,7 +80,7 @@ class Rules
     dest_y = action[3]
     dest = state.table[dest_x][dest_y]
 
-    if(piece_team(piece) != turn)
+    if(piece_team(piece) != state.turn)
       p("Escolha uma peça válida")
       return false
     end
