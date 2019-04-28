@@ -10,35 +10,35 @@ class Rules
   
   def piece_team(piece)
     if(piece == 1 || piece == 3)
-      1
+      return 1
     elsif(piece == 2 || piece == 4)
-      2
+      return 2
     else
-      piece
+      return piece
     end
   end
 
   def king(piece)
     if(piece == 3 || piece == 4)
-      true
+      return true
     else
-      false
+      return false
     end
   end
 
   def invalid_destination(piece_x, piece_y, dest_x, dest_y, piece)
     if(piece_team == 1)
       if(((dest_x) != piece_x - 1) || (dest_y - piece_y).abs() != 1)
-        true
+        return true
       else
-        false
+        return false
       end
 
     else
       if(((dest_x) != piece_x + 1) || (dest_y - piece_y).abs() != 1)
-        true
+        return true
       else
-        false
+        return false
       end
     end
   end
@@ -69,7 +69,7 @@ class Rules
   def validate_action(state, action)
 
     if(invalid_coord(action))
-      false
+      return false
     end
 
     piece_x = action[0]
@@ -82,19 +82,19 @@ class Rules
 
     if(piece_team(piece) != turn)
       p("Escolha uma peça válida")
-      false
+      return false
     end
     
     if(dest != 0)
       p("Mova para uma posição vazia")
-      false
+      return false
     end
 
     if(invalid_destination(piece_x, piece_y, dest_x, dest_y, piece))
       p("Mova para uma posição válida")
-      false
+      return false
     end
-    true
+    return true
   end
   
 end
