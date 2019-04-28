@@ -1,13 +1,33 @@
 require_relative "piece"
 class State
   
-  attr_accessor :pieces_player1, :pieces_player2, :turn,  
+  WHITE_MAN = 1
+  BLACK_MAN = 2
+  WHITE_KING = 3
+  BLACK_KING = 4
+  attr_accessor :pieces_player1, :pieces_player2, :table, :turn,  
                 :turns_without_promotion, :turns_without_points  
   
   def initialize(initial_player)
    
     @pieces_player1 = []
     @pieces_player2 = []
+
+    table=[[-1, 2, -1, 2, -1, 2, -1, 2],
+              
+          [2, -1, 2, -1, 2, -1, 2, -1],
+
+          [-1, 2, -1, 2, -1, 2, -1, 2],
+
+          [0, -1, 0, -1, 0, -1, 0, -1],
+
+          [-1, 0, -1, 0, -1, 0, -1, 0],
+
+          [1, -1, 1, -1, 1, -1, 1, -1],
+
+          [-1, 1, -1, 1, -1, 1, -1, 1],
+
+          [1, -1, 1, -1, 1, -1, 1, -1]] 
 
     #second player pieces
     piece1 = Piece.new(2, 0, 1)
