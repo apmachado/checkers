@@ -6,34 +6,20 @@ class Human
     @team = team
   end
   
-  def get_move(matrix)
+  def get_move()
     if self.team == "white"
-      coord = {A:0, B:1, C:2, D:3, E:4, F:5, G:6, H:7}
+      coord_x = {'A'=>1, 'B'=>2, 'C'=>3, 'D'=>4, 'E'=>5, 'F'=>6, 'G'=>7, 'H'=>8}
+      coord_y = {'1'=>1, '2'=>2, '3'=>3, '4'=>4, '5'=>5, '6'=>6, '7'=>7, '8'=>8}
     else
-      coord = {A:7, B:6, C:5, D:4, E:3, F:2, G:1, H:0}
+      coord_x = {'A'=>8, 'B'=>7, 'C'=>6, 'D'=>5, 'E'=>4, 'F'=>3, 'G'=>2, 'H'=>1}
+      coord_y = {'1'=>8, '2'=>7, '3'=>6, '4'=>5, '5'=>4, '6'=>3, '7'=>2, '8'=>1}
     end
     
     puts "Escolha a peça e a posição que deseja mover"
     input = gets.split(/[\s,']/)#.map { |s| s.to_i }
-    puts coord.input[0]
+
+    coords = [coord_x[input[0]], coord_y[input[1]], coord_x[input[2]], coord_y[input[3]]]
+    return coords
+
   end
 end
-
-matrix = [[-1, 2, -1, 2, -1, 2, -1, 2],
-              
-          [2, -1, 2, -1, 2, -1, 2, -1],
-
-          [-1, 2, -1, 2, -1, 2, -1, 2],
-
-          [0, -1, 0, -1, 0, -1, 0, -1],
-
-          [-1, 0, -1, 0, -1, 0, -1, 0],
-
-          [1, -1, 1, -1, 1, -1, 1, -1],
-
-          [-1, 1, -1, 1, -1, 1, -1, 1],
-
-          [1, -1, 1, -1, 1, -1, 1, -1]]
-
-test = Human.new("white")
-test.get_move(matrix)
