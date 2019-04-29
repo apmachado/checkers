@@ -8,10 +8,10 @@ class GameController
 
   def initialize(p1, p2)
     print "#{p1} vs #{p2}\n"
-    @p1 = Human.new(1)
-    @p2 = Human.new(2)
 
     @rules = Rules.new
+    @p1 = Human.new(1, rules)
+    @p2 = Human.new(2, rules)
     @state = State.new(@p1.team)
     @display = Display.new
   end
@@ -19,11 +19,11 @@ class GameController
   def run_game
     # game loop
     while true
-      @display.draw(state)
+      @display.draw(state, current_player)
 
-      action = current_player.get_move
+      action = current_player.get_move(state)
       while !rules.validate_action(state, action)
-        action = current_player.get_move
+        action = current_player.get_move(state)
       end
 
       @state = rules.apply_action(state, action)

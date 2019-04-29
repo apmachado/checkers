@@ -1,5 +1,5 @@
 class Display
-  attr_accessor  :state
+  attr_accessor  :state, :player
 
   TOPO_EDGE = "\u2581"
   BOTTON_EDGE = "\u2594"
@@ -14,8 +14,9 @@ class Display
 
   CHARS = { -1 => EMPTY, 0 => BLACK,  1 => P1_CHAR, 2 => P2_CHAR, 3 => P1_KING, 4 => P2_KING }
 
-  def draw(state)
+  def draw(state, player)
     @state = state
+    @player = player
     print "=" * 40
     print "\n"
 
@@ -49,10 +50,20 @@ class Display
   end
 
   def draw_line
-    state.table.each_with_index do |line, index|
-      print "  \u2551  #{index_to_letter index}\u2595"
-      line.each { |cell| print CHARS[cell] }
+    actions = player.possibles_moves state
+    state.table.each_with_index do |line, i|
+      print "  \u2551  #{index_to_letter i}\u2595"
+      line.each_with_index do |cell, j|
+        print ((valid?(actions, [i, j])) ? "\u2591\u2591" : CHARS[cell])
+      end
       print "\u258F  \u2551\n"
     end
+  end
+
+  def valid?(actions, position)
+    actions.each do |a|
+      return true if a[2] == position[0] && a[3] == position[1]
+    end
+    false
   end
 end
