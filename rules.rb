@@ -29,11 +29,7 @@ class Rules
       return(((dest_x) != piece_x + 1) || (dest_y - piece_y).abs() != 1)
     end
   end
-<<<<<<< HEAD
   
-=======
-
->>>>>>> 0bfb9c47d47fd5907422822cd09495a3ca5421d7
   def has_to_eat(state)
     state.table.each_with_index do |line, x|
       line.each_with_index do |e, y|
@@ -87,11 +83,7 @@ class Rules
       end
     end     
   end
-<<<<<<< HEAD
   
-=======
-
->>>>>>> 0bfb9c47d47fd5907422822cd09495a3ca5421d7
   def apply_action(state,action)
     piece_x = action[0]
     piece_y = action[1]
