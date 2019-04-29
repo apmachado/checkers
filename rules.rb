@@ -19,32 +19,66 @@ class Rules
   end
 
   def king(piece)
-    if(piece == 3 || piece == 4)
-      return true
-    else
-      return false
-    end
+    (piece == 3 || piece == 4)
   end
 
   def invalid_destination(piece_x, piece_y, dest_x, dest_y, piece)
     if(piece_team(piece) == 1)
-      if(((dest_x) != piece_x - 1) || (dest_y - piece_y).abs() != 1)
-        return true
-      else
-        return false
-      end
-
+      return (((dest_x) != piece_x - 1) || (dest_y - piece_y).abs() != 1)
     else
-      if(((dest_x) != piece_x + 1) || (dest_y - piece_y).abs() != 1)
-        return true
-      else
-        return false
-      end
+      return(((dest_x) != piece_x + 1) || (dest_y - piece_y).abs() != 1)
     end
   end
-    
 
-  
+  def has_to_eat(state)
+    
+    state.table.each_with_index do |line, x|
+      line.each_with_index do |e, y|
+        if(piece_team(e) == state.turn)
+          if(can_eat(x, y, state.table))
+            return true
+          end
+        end
+      end
+    end
+    return false
+  end
+
+  def can_eat(piece_x, piece_y, table)
+    piece = table[piece_x][piece_y]
+    x = [-1,1]
+    y = [-1,1]
+    dest_x = 0
+    dest_y = 0
+    if(piece_team(piece) == 1)
+      if(!king(piece))
+        dest_x = piece_x - 1
+        (0..1).each do |i|
+          dest_y = piece_y + y[i]
+          if(piece_team(table[dest_x][dest_y]) == 2)
+            if(table[dest_x - 1][dest_y + y[i]] == 0)
+              return true
+            end
+          end
+        end
+        return false
+      end
+    else
+      if(!king(piece))
+        dest_x = piece_x + 1
+        (0..1).each do |i|
+          dest_y = piece_y + x[i]
+          if(piece_team(table[dest_x][dest_y]) == 1)  
+            if(table[dest_x + 1 ][dest_y + x[i]] == 0)
+              return true
+            end
+          end
+        end
+        return false
+      end
+    end     
+  end
+
   def apply_action(state,action)
     piece_x = action[0]
     piece_y = action[1]
@@ -68,7 +102,14 @@ class Rules
   
   def validate_action(state, action)
 
+    
+
     if(invalid_coord(action))
+      return false
+    end
+
+    if(has_to_eat(state))
+      p("tem que comer")
       return false
     end
 
@@ -96,5 +137,5 @@ class Rules
     end
     return true
   end
-  
+
 end
