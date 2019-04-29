@@ -26,7 +26,7 @@ class Human
     
     while (!valid_pos) do
       puts "Escolha a peça e a posição que deseja mover"
-      input = gets.split(/[\s,']/)#.map { |s| s.to_i }
+      input = gets.upcase.split(/[\s,']/)#.map { |s| s.to_i }
       if(!((input[1].to_i.between?(1,8))&& (input[3].to_i.between?(1,8)) && (input[0] =~ /[A-H]/) && (input[2] =~ /[A-H]/)))
         puts "Posicao invalida"
       else
