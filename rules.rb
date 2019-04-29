@@ -29,10 +29,8 @@ class Rules
       return(((dest_x) != piece_x + 1) || (dest_y - piece_y).abs() != 1)
     end
   end
-<<<<<<< HEAD
-    
+  
   def has_to_eat(state)
-    
     state.table.each_with_index do |line, x|
       line.each_with_index do |e, y|
         if(piece_team(e) == state.turn)
@@ -56,9 +54,12 @@ class Rules
         dest_x = piece_x - 1
         (0..1).each do |i|
           dest_y = piece_y + y[i]
-          if(piece_team(table[dest_x][dest_y]) == 2)
-            if(table[dest_x - 1][dest_y + y[i]] == 0)
-              return true
+          
+          if (dest_y > 0 && dest_y < 7)
+            if(piece_team(table[dest_x][dest_y]) == 2)
+              if(table[piece_x - 2][piece_y + (2*y[i])] == 0)
+                return true
+              end
             end
           end
         end
@@ -69,9 +70,12 @@ class Rules
         dest_x = piece_x + 1
         (0..1).each do |i|
           dest_y = piece_y + x[i]
-          if(piece_team(table[dest_x][dest_y]) == 1)  
-            if(table[dest_x + 1 ][dest_y + x[i]] == 0)
-              return true
+          if (dest_y > 0 && dest_y < 7)
+            if(piece_team(table[dest_x][dest_y]) == 1)
+                
+              if(table[piece_x + 2 ][piece_y + (2*x[i])] == 0)
+                return true
+              end
             end
           end
         end
@@ -80,9 +84,6 @@ class Rules
     end     
   end
   
-=======
-
->>>>>>> 84e784f9ab1caed6f2b33235d4e42a147086923d
   def apply_action(state,action)
     piece_x = action[0]
     piece_y = action[1]
@@ -93,9 +94,23 @@ class Rules
 
     new_state = state.copy_state()
 
+    t = state.table.each.map do |line|
+      line.each.map { |e| e}
+    end
+    new_state.table = t
     new_state.table[piece_x][piece_y] = 0
     new_state.table[dest_x][dest_y] = piece
     
+    if(is_eating(piece_x, piece_y, dest_x, dest_y, state.table))
+      delta_x = dest_x - piece_x
+      delta_y = dest_y - piece_y
+      new_state.table[piece_x + delta_x/2][piece_y + delta_y/2] = 0
+      if(state.turn == 1)
+        new_state.pieces_player2 -= 1
+      else
+        new_state.pieces_player1 -= 1
+      end
+    end
     if(state.turn == 1)
       new_state.turn = 2
     else
@@ -103,17 +118,37 @@ class Rules
     end
     new_state
   end
+
+  def is_eating(piece_x, piece_y, dest_x, dest_y,table)
+    piece = table[piece_x][piece_y]
+    delta_x = dest_x - piece_x
+    delta_y = dest_y - piece_y
+    if(piece_team(piece) == 1)
+      if(!king(piece))
+        if(delta_x != -2 || delta_y.abs() != 2 )
+          return false
+        end
+        if(table[piece_x - 1][piece_y + delta_y/2] != 2)
+          return false
+        end
+        return true
+      end
+    else
+      if(!king(piece))
+        if(delta_x != +2 || delta_y.abs() != 2 )
+          return false
+        end
+        if(table[piece_x + 1][piece_y + delta_y/2] != 1)
+          return false
+        end
+        return true
+      end
+    end
+  end
   
   def validate_action(state, action)
 
-    
-
     if(invalid_coord(action))
-      return false
-    end
-
-    if(has_to_eat(state))
-      p("tem que comer")
       return false
     end
 
@@ -131,8 +166,24 @@ class Rules
     end
     
     if(dest != 0)
-      p("Mova para uma posição vazia")
+      p("Mova para uma posição válida")
       return false
+    end
+
+    
+
+    if (has_to_eat(state))
+      if (!can_eat(piece_x, piece_y, state.table))
+        p("Você deve comer a peça inimiga")
+        return false
+      else
+        if(!is_eating(piece_x,piece_y, dest_x, dest_y,state.table))
+          p("Você deve comer a peça inimiga")
+          return false
+        else
+          return true
+        end
+      end
     end
 
     if(invalid_destination(piece_x, piece_y, dest_x, dest_y, piece))

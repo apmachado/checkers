@@ -10,8 +10,8 @@ class State
   
   def initialize(initial_player)
    
-    @pieces_player1 = []
-    @pieces_player2 = []
+    @pieces_player1 = 0
+    @pieces_player2 = 0
 
     @table=[[-1, 2, -1, 2, -1, 2, -1, 2],
               
@@ -29,84 +29,6 @@ class State
 
           [1, -1, 1, -1, 1, -1, 1, -1]] 
 
-    #second player pieces
-    piece1 = Piece.new(2, 0, 1)
-    @pieces_player2 << piece1
-
-    piece1 = Piece.new(2, 0, 3)
-    @pieces_player2 << piece1
-
-    piece1 = Piece.new(2, 0, 5)
-    @pieces_player2 << piece1
-
-    piece1 = Piece.new(2, 0, 7)
-    @pieces_player2 << piece1
-
-
-    piece1 = Piece.new(2, 1, 0)
-    @pieces_player2 << piece1
-
-    piece1 = Piece.new(2, 1, 2)
-    @pieces_player2 << piece1
-
-    piece1 = Piece.new(2, 1, 4)
-    @pieces_player2 << piece1
-
-    piece1 = Piece.new(2, 1, 6)
-    @pieces_player2 << piece1
-
-
-    piece1 = Piece.new(2, 2, 1)
-    @pieces_player2 << piece1
-
-    piece1 = Piece.new(2, 2, 3)
-    @pieces_player2 << piece1
-
-    piece1 = Piece.new(2, 2, 5)
-    @pieces_player2 << piece1
-
-    piece1 = Piece.new(2, 2, 7)
-    @pieces_player2 << piece1
-
-    #first player pieces    
-    piece1 = Piece.new(1, 7, 0)
-    @pieces_player1 << piece1
-
-    piece1 = Piece.new(1, 7, 2)
-    @pieces_player1 << piece1
-
-    piece1 = Piece.new(1, 7, 4)
-    @pieces_player1 << piece1
-
-    piece1 = Piece.new(1, 7, 6)
-    @pieces_player1 << piece1
-
-
-    piece1 = Piece.new(1, 6, 1)
-    @pieces_player1 << piece1
-
-    piece1 = Piece.new(1, 6, 3)
-    @pieces_player1 << piece1
-
-    piece1 = Piece.new(1, 6, 5)
-    @pieces_player1 << piece1
-
-    piece1 = Piece.new(1, 6, 7)
-    @pieces_player1 << piece1
-
-    
-    piece1 = Piece.new(1, 5, 0)
-    @pieces_player1 << piece1
-
-    piece1 = Piece.new(1, 5, 2)
-    @pieces_player1 << piece1
-
-    piece1 = Piece.new(1, 5, 4)
-    @pieces_player1 << piece1
-
-    piece1 = Piece.new(1, 5, 6)
-    @pieces_player1 << piece1
-
     
     @turn = initial_player
     @turns_without_promotion = 0
@@ -118,5 +40,12 @@ class State
     
     self.dup()
 
+  end
+  
+  def print_state()
+    p "Table ", @table
+    p "Turn ", @turn
+    p "Turn whitout promotion ", @turns_without_promotion
+    p "Turn without points ", @turns_without_points
   end
 end
