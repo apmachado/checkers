@@ -19,29 +19,17 @@ class Rules
   end
 
   def king(piece)
-    if(piece == 3 || piece == 4)
-      return true
-    else
-      return false
-    end
+    (piece == 3 || piece == 4)
   end
 
   def invalid_destination(piece_x, piece_y, dest_x, dest_y, piece)
     if(piece_team(piece) == 1)
-      if(((dest_x) != piece_x - 1) || (dest_y - piece_y).abs() != 1)
-        return true
-      else
-        return false
-      end
-
+      return (((dest_x) != piece_x - 1) || (dest_y - piece_y).abs() != 1)
     else
-      if(((dest_x) != piece_x + 1) || (dest_y - piece_y).abs() != 1)
-        return true
-      else
-        return false
-      end
+      return(((dest_x) != piece_x + 1) || (dest_y - piece_y).abs() != 1)
     end
   end
+<<<<<<< HEAD
     
   def has_to_eat(state)
     
@@ -92,6 +80,9 @@ class Rules
     end     
   end
   
+=======
+
+>>>>>>> 84e784f9ab1caed6f2b33235d4e42a147086923d
   def apply_action(state,action)
     piece_x = action[0]
     piece_y = action[1]
@@ -150,5 +141,5 @@ class Rules
     end
     return true
   end
-  
+
 end
