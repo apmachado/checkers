@@ -22,11 +22,25 @@ class Rules
     (piece == 3 || piece == 4)
   end
 
+  def king_or_not(piece, dest_x)
+    if(piece_team(piece) == 1 && dest_x == 0)
+      return 3
+    end
+    if(piece_team(piece) == 2 && dest_x == 7)
+      return 4
+    end
+    return piece
+  end
+
   def invalid_destination(piece_x, piece_y, dest_x, dest_y, piece)
-    if(piece_team(piece) == 1)
-      return (((dest_x) != piece_x - 1) || (dest_y - piece_y).abs() != 1)
+    if(king(piece))
+      return ((dest_x - piece_x).abs() != 1 || (dest_y - piece_y).abs() != 1)
     else
-      return(((dest_x) != piece_x + 1) || (dest_y - piece_y).abs() != 1)
+      if(piece_team(piece) == 1)
+        return (((dest_x) != piece_x - 1) || (dest_y - piece_y).abs() != 1)
+      else
+        return(((dest_x) != piece_x + 1) || (dest_y - piece_y).abs() != 1)
+      end
     end
   end
   
@@ -49,6 +63,7 @@ class Rules
     y = [-1,1]
     dest_x = 0
     dest_y = 0
+    
     if(piece_team(piece) == 1)
       if(!king(piece))
         dest_x = piece_x - 1
@@ -59,6 +74,22 @@ class Rules
             if(piece_team(table[dest_x][dest_y]) == 2)
               if(table[piece_x - 2][piece_y + (2*y[i])] == 0)
                 return true
+              end
+            end
+          end
+        end
+        return false
+      else
+        (0..1).each do |i|
+          (0..1).each do |j|
+            dest_x = piece_x + x[i]
+            dest_y = piece_y + y[j]
+            
+            if((dest_y > 0) && (dest_y < 7) && (dest_x > 0) && (dest_x < 7))
+              if(piece_team(table[dest_x][dest_y]) == 2)
+                if(table[piece_x + (2 * x[i])][piece_y + (2 * y[j])] == 0)
+                  return true
+                end
               end
             end
           end
@@ -75,6 +106,24 @@ class Rules
                 
               if(table[piece_x + 2 ][piece_y + (2*x[i])] == 0)
                 return true
+              end
+            end
+          end
+        end
+        return false
+      else
+        (0..1).each do |i|
+          (0..1).each do |j|
+            dest_x = piece_x + x[i]
+            dest_y = piece_y + y[j]
+            
+            if((dest_y > 0) && (dest_y < 7) && (dest_x > 0) && (dest_x < 7))
+              p(piece_team(table[dest_x][dest_y])) 
+              if(piece_team(table[dest_x][dest_y]) == 1)
+                 
+                if(table[piece_x + (2 * x[i])][piece_y + (2 * y[j])] == 0)
+                  return true
+                end
               end
             end
           end
@@ -99,18 +148,42 @@ class Rules
     end
     new_state.table = t
     new_state.table[piece_x][piece_y] = 0
-    new_state.table[dest_x][dest_y] = piece
+    new_piece = king_or_not(piece, dest_x)
+    new_state.table[dest_x][dest_y] = new_piece
+
+    if(king(new_piece))
+      if(state.turn == 1)
+        new_state.kings_player1 += 1
+      else
+        new_state.kings_player2 += 1
+      end
+      new_state.turns_without_promotion = 0
+    else
+      new_state.turns_without_promotion += 1
+    end
+    
     
     if(is_eating(piece_x, piece_y, dest_x, dest_y, state.table))
       delta_x = dest_x - piece_x
       delta_y = dest_y - piece_y
+      
       new_state.table[piece_x + delta_x/2][piece_y + delta_y/2] = 0
       if(state.turn == 1)
         new_state.pieces_player2 -= 1
+        if(king(state.table[piece_x + delta_x/2][piece_y + delta_y/2]))
+          new_state.kings_player2 -= 1
+        end
       else
         new_state.pieces_player1 -= 1
+        if(king(state.table[piece_x + delta_x/2][piece_y + delta_y/2]))
+          new_state.kings_player1 -= 1
+        end
       end
+      new_state.turns_without_points = 0
+    else
+      new_state.turns_without_points += 1
     end
+    
     if(state.turn == 1)
       new_state.turn = 2
     else
@@ -128,7 +201,15 @@ class Rules
         if(delta_x != -2 || delta_y.abs() != 2 )
           return false
         end
-        if(table[piece_x - 1][piece_y + delta_y/2] != 2)
+        if(piece_team(table[piece_x - 1][piece_y + delta_y/2]) != 2)
+          return false
+        end
+        return true
+      else
+        if(delta_x.abs() != 2 || delta_y.abs() != 2)
+          return false
+        end
+        if(piece_team(table[piece_x + delta_x/2][piece_y + delta_y/2]) != 2)
           return false
         end
         return true
@@ -138,7 +219,15 @@ class Rules
         if(delta_x != +2 || delta_y.abs() != 2 )
           return false
         end
-        if(table[piece_x + 1][piece_y + delta_y/2] != 1)
+        if(piece_team(table[piece_x + 1][piece_y + delta_y/2]) != 1)
+          return false
+        end
+        return true
+      else
+        if(delta_x.abs() != 2 || delta_y.abs() != 2)
+          return false
+        end
+        if(piece_team(table[piece_x + delta_x/2][piece_y + delta_y/2]) != 1)
           return false
         end
         return true
@@ -177,4 +266,9 @@ class Rules
       return 'Mova para uma posição válida'
     end
   end
+
+  def has_ended(state)
+    return state.pieces_player1 == 0 || state.pieces_player2 == 0 || (state.turns_without_points == 40 && state.turns_without_promotion == 40)
+  end
+  
 end
