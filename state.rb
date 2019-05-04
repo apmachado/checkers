@@ -43,9 +43,15 @@ class State
   end
   
   def print_state()
-    p "Table ", @table
+    p "Table"
+    @table.each do |r|
+      puts "[" + r.each {p| p }.join(", ") + "]"
+    end
     p "Turn ", @turn
     p "Turn whitout promotion ", @turns_without_promotion
     p "Turn without points ", @turns_without_points
   end
 end
+
+estado = State.new(1)
+estado.print_state
