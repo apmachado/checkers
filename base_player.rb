@@ -38,6 +38,6 @@ class BasePLayer
       a = (0...8).each.map { |j| [piece[0], piece[1], i, j] }
       actions.concat(a)
     end
-    actions = actions.select { |a| rules.validate_action(state, a) }
+    actions = actions.select { |a| rules.validate_action(state, a).nil? }
   end
 end

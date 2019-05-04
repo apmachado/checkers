@@ -22,9 +22,6 @@ class GameController
       @display.draw(state, current_player)
 
       action = current_player.get_move(state)
-      while !rules.validate_action(state, action)
-        action = current_player.get_move(state)
-      end
 
       @state = rules.apply_action(state, action)
     end

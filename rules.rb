@@ -147,10 +147,7 @@ class Rules
   end
   
   def validate_action(state, action)
-
-    if(invalid_coord(action))
-      return false
-    end
+    return 'Coodenadas inválidas' if invalid_coord(action)
 
     piece_x = action[0]
     piece_y = action[1]
@@ -160,37 +157,24 @@ class Rules
     dest_y = action[3]
     dest = state.table[dest_x][dest_y]
 
-    if(piece_team(piece) != state.turn)
-      p("Escolha uma peça válida")
-      return false
-    end
+    return 'Escolha uma peça válida' if(piece_team(piece) != state.turn)
     
-    if(dest != 0)
-      p("Mova para uma posição válida")
-      return false
-    end
-
-    
+    return 'Mova para uma posição válida' if(dest != 0)
 
     if (has_to_eat(state))
       if (!can_eat(piece_x, piece_y, state.table))
-        p("Você deve comer a peça inimiga")
-        return false
+        return 'Você deve comer a peça inimiga'
       else
         if(!is_eating(piece_x,piece_y, dest_x, dest_y,state.table))
-          p("Você deve comer a peça inimiga")
-          return false
+          return 'Você deve comer a peça inimiga'
         else
-          return true
+          return
         end
       end
     end
 
     if(invalid_destination(piece_x, piece_y, dest_x, dest_y, piece))
-      p("Mova para uma posição válida")
-      return false
+      return 'Mova para uma posição válida'
     end
-    return true
   end
-
 end
