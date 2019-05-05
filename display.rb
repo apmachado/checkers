@@ -19,6 +19,11 @@ class Display
     2 =>P2_CHAR, 3 => P1_KING, 4 => P2_KING
   }
 
+  def initialize(p1, p2)
+    @p1 = p1
+    @p2 = p2
+  end
+
   def draw(state, player)
     @state = state
     @player = player
@@ -38,16 +43,26 @@ class Display
     print "\n\n"
   end
 
+  def draw_end_game(winner)
+    if winner.nil?
+      print "Jogo terminou com um empate!!!"
+    else
+      print "P#{winner.team} - #{winner.class} é o vencedor!!!\n"
+    end
+  end
+
   private
 
   def draw_score
-    if state.turn == 1
-      print " \u25F7  P1\n\n"
-      print "    P2\n\n"
-    else
-      print "    P1\n\n"
-      print " \u25F7  P2\n\n"
-    end
+    p1_char_time = (state.turn == @p1.team) ? " \u25F7" : '  '
+    p2_char_time = (state.turn == @p2.team) ? " \u25F7" : '  '
+
+    print "#{p1_char_time}  P1 - #{@p1.class}:\n"
+    print "\t Nº de peças: #{state.pieces_player1}\n"
+    print "\t Nº de damas: #{state.kings_player1}\n\n"
+    print "#{p2_char_time}  P2 - #{@p2.class}:\n"
+    print "\t Nº de peças: #{state.pieces_player2}\n"
+    print "\t Nº de damas: #{state.kings_player2}\n\n"
   end
 
   def index_to_letter(index)

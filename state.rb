@@ -1,4 +1,3 @@
-require_relative "piece"
 class State
   
   WHITE_MAN = 1
@@ -10,8 +9,8 @@ class State
   
   def initialize(initial_player)
    
-    @pieces_player1 = 0
-    @pieces_player2 = 0
+    @pieces_player1 = 12
+    @pieces_player2 = 12
     @kings_player1 = 0
     @kings_player2 = 0
 

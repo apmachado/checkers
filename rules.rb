@@ -266,8 +266,12 @@ class Rules
     end
   end
 
-  def has_ended(state)
-    return state.pieces_player1 == 0 || state.pieces_player2 == 0 || (state.turns_without_points == 40 && state.turns_without_promotion == 40)
+  def draw?(state)
+    state.turns_without_points == 40 && state.turns_without_promotion == 40
+  end
+
+  def has_ended?(state)
+    return state.pieces_player1 == 0 || state.pieces_player2 == 0 || draw?(state)
   end
   
 end
