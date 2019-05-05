@@ -117,6 +117,3 @@ class State
   end
 end
 
-estado = State.new(1)
-estado.save_state()
-estado.print_state()

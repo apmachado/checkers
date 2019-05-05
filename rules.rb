@@ -70,7 +70,7 @@ class Rules
         (0..1).each do |i|
           dest_y = piece_y + y[i]
           
-          if (dest_y > 0 && dest_y < 7)
+          if (dest_y > 0 && dest_y < 7 && dest_x > 0)
             if(piece_team(table[dest_x][dest_y]) == 2)
               if(table[piece_x - 2][piece_y + (2*y[i])] == 0)
                 return true
@@ -101,7 +101,7 @@ class Rules
         dest_x = piece_x + 1
         (0..1).each do |i|
           dest_y = piece_y + x[i]
-          if (dest_y > 0 && dest_y < 7)
+          if (dest_y > 0 && dest_y < 7 && dest_x < 7 )
             if(piece_team(table[dest_x][dest_y]) == 1)
                 
               if(table[piece_x + 2 ][piece_y + (2*x[i])] == 0)
@@ -118,7 +118,6 @@ class Rules
             dest_y = piece_y + y[j]
             
             if((dest_y > 0) && (dest_y < 7) && (dest_x > 0) && (dest_x < 7))
-              p(piece_team(table[dest_x][dest_y])) 
               if(piece_team(table[dest_x][dest_y]) == 1)
                  
                 if(table[piece_x + (2 * x[i])][piece_y + (2 * y[j])] == 0)

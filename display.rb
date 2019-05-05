@@ -1,3 +1,5 @@
+require_relative 'game_controller'
+
 class Display
   attr_accessor  :state, :player
 
@@ -9,10 +11,13 @@ class Display
   EMPTY   = "\u2588\u2588"
   P1_CHAR = "\u26C2 "
   P2_CHAR = "\u26C0 "
-  P1_KING = "\u26C1 "
-  P2_KING = "\u26C3 "
+  P1_KING = "\u26C3 "
+  P2_KING = "\u26C1 "
 
-  CHARS = { -1 => EMPTY, 0 => BLACK,  1 => P1_CHAR, 2 => P2_CHAR, 3 => P1_KING, 4 => P2_KING }
+  CHARS = {
+    -1 => EMPTY, 0 => BLACK,  1 => P1_CHAR,
+    2 =>P2_CHAR, 3 => P1_KING, 4 => P2_KING
+  }
 
   def draw(state, player)
     @state = state

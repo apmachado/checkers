@@ -2,16 +2,21 @@ require_relative 'state'
 require_relative 'display'
 require_relative 'human'
 require_relative 'rules'
+require_relative 'random_ai'
+
+PLAYERS = [
+  Human,
+  RandomAI
+]
 
 class GameController
   attr_accessor :state, :p1, :p2, :rules
 
   def initialize(p1, p2)
-    print "#{p1} vs #{p2}\n"
-
     @rules = Rules.new
-    @p1 = Human.new(1, rules)
-    @p2 = Human.new(2, rules)
+    @p1 = PLAYERS[p1].new(1, rules)
+    @p2 = PLAYERS[p2].new(2, rules)
+
     @state = State.new(@p1.team)
     @display = Display.new
   end

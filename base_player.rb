@@ -15,7 +15,7 @@ class BasePLayer
     pieces = []
     state.table.each_with_index do |line, i|
       c = line.each_with_index.map do |e, j|
-        [i, j] if e == team
+        [i, j] if rules.piece_team(e)
       end
       c.compact!
       pieces.concat(c) unless c.empty?
