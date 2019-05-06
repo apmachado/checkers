@@ -1,7 +1,7 @@
 require_relative 'base_player'
 
 class RandomAI < BasePLayer
-  DELAY = 1
+  DELAY = 0.5
 
   def initialize(team, rules)
     super(team, rules)

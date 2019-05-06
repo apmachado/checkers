@@ -1,6 +1,9 @@
 require_relative 'game_controller'
 
-print "1. Humano \n2. NPCAleatório\n3. MinMaxAlphaBeta\n\n"
+print "1. Humano \n"
+print "2. NPCAleatório\n"
+print "3. MinMaxAlphaBeta\n"
+print "4. MinMaxCutOff\n\n"
 
 print "Selecione qual será o jogador 1: "
 p1 = gets.chomp.to_i - 1
