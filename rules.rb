@@ -150,7 +150,10 @@ class Rules
     new_piece = king_or_not(piece, dest_x)
     new_state.table[dest_x][dest_y] = new_piece
 
-    if(king(new_piece))
+    king = false
+
+    if(king(new_piece)&& !king(piece))
+      king = true
       if(state.turn == 1)
         new_state.kings_player1 += 1
       else
@@ -160,9 +163,12 @@ class Rules
     else
       new_state.turns_without_promotion += 1
     end
+
+    eats  = false
     
     
     if(is_eating(piece_x, piece_y, dest_x, dest_y, state.table))
+      eats = true
       delta_x = dest_x - piece_x
       delta_y = dest_y - piece_y
       
@@ -182,13 +188,15 @@ class Rules
     else
       new_state.turns_without_points += 1
     end
-    
-    if(state.turn == 1)
-      new_state.turn = 2
-    else
-      new_state.turn = 1
+
+    if(!(can_eat(dest_x, dest_y, new_state.table) && eats && !king))  
+      if(state.turn == 1)
+        new_state.turn = 2
+      else
+        new_state.turn = 1
+      end
     end
-    new_state
+  new_state
   end
 
   def is_eating(piece_x, piece_y, dest_x, dest_y,table)
