@@ -3,10 +3,12 @@ require_relative 'display'
 require_relative 'human'
 require_relative 'rules'
 require_relative 'random_ai'
+require_relative 'min_max_alpha_beta'
 
 PLAYERS = [
   Human,
-  RandomAI
+  RandomAI,
+  MinMaxAlphaBeta
 ]
 
 class GameController
