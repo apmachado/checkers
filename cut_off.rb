@@ -19,7 +19,7 @@ class CutOff < BasePLayer
   end
 
   def min_max(state, alpah, beta, depth, first = false)
-    return eval(state) if cut_off?(depth)
+    return eval(state) if cut_off?(depth) || rules.has_ended?(state)
 
     (state.turn == team) ?
       max_value(state, alpah, beta, depth, first) :
@@ -69,7 +69,7 @@ class CutOff < BasePLayer
   end
 
   def eval(state)
-    fator = (team = 1) ? 1 : -1
+    fator = (team == 1) ? 1 : -1
 
     (state.pieces_player1 - state.pieces_player2) * fator
   end
