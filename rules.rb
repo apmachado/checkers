@@ -131,6 +131,73 @@ class Rules
       end
     end     
   end
+
+  def table_stuck(state)
+    state.table.each_with_index do |line, piece_x|
+      line.each_with_index do |e, piece_y|
+        if(piece_team(e) == state.turn)
+          if(!stuck(piece_x, piece_y, state.table))
+            return false
+          end
+        end
+      end
+    end
+    return true
+  end
+
+  def stuck(piece_x, piece_y, table)
+    
+    if(can_eat(piece_x, piece_y, table))
+      return false
+    end
+
+    piece = table[piece_x][piece_y]
+    x = [-1,1]
+    y = [-1,1]
+    dest_x = 0
+    dest_y = 0
+
+    
+
+    if(king(piece))
+      (0..1).each do |i|
+        (0..1).each do |j|
+          dest_x = piece_x + x[i]
+          dest_y = piece_y + y[j]
+          
+          if((dest_y >= 0) && (dest_y < 8) && (dest_x >= 0) && (dest_x < 8))
+            if(piece_team(table[dest_x][dest_y]) == 0)
+              return false
+            end
+          end
+        end
+      end
+      return true
+    else
+      if(piece_team(piece) == 1)
+        dest_x = piece_x - 1
+      else
+        dest_x = piece_x +1
+      end
+      (0..1).each do |i|
+        dest_y = piece_y + y[i]
+        if(dest_y >= 0 && dest_y < 8)
+          if(piece_team(table[dest_x][dest_y]) == 0)
+            return false
+          end
+        end
+      end
+      return true
+    end
+  end
+        
+
+
+
+
+      
+
+
   
   def apply_action(state,action)
     piece_x = action[0]
@@ -275,11 +342,11 @@ class Rules
   end
 
   def draw?(state)
-    state.turns_without_points == 40 && state.turns_without_promotion == 40
+    state.turns_without_points >= 40 && state.turns_without_promotion >= 40
   end
 
   def has_ended?(state)
-    return state.pieces_player1 == 0 || state.pieces_player2 == 0 || draw?(state)
+    return state.pieces_player1 == 0 || state.pieces_player2 == 0 || draw?(state) || table_stuck(state)
   end
   
 end
