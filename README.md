@@ -67,3 +67,11 @@ Nenhum dos jogadores colocar uma de suas peças comuns na linha da dama, transfo
 
 Nenhum dos jogadores teve uma de suas peças removidas por, pelo menos, os últimos 40 movimentos.
 
+
+Fontes para a Heurística:
+
+https://www.ultraboardgames.com/checkers/tips.php
+
+https://www.thesprucecrafts.com/how-to-win-at-checkers-411170
+
+https://awesomejelly.com/this-is-how-you-can-beat-anyone-at-the-game-of-checkers/

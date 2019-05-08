@@ -18,7 +18,7 @@ class MinMaxAlphaBeta < BasePLayer
   end
 
   def min_max(state, alpah, beta, first = false)
-    return utiliry(state) if rules.has_ended?(state)
+    return utility(state) if rules.has_ended?(state)
 
     (state.turn == team) ?
       max_value(state, alpah, beta, first) :
@@ -67,7 +67,7 @@ class MinMaxAlphaBeta < BasePLayer
     value
   end
 
-  def utiliry(state)
+  def utility(state)
     return 0 if rules.draw?(state)
 
     (state.turn == team) ? -1 : 1 
