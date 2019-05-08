@@ -5,12 +5,14 @@ require_relative 'rules'
 require_relative 'random_ai'
 require_relative 'min_max_alpha_beta'
 require_relative 'cut_off'
+require_relative 'cut_off_weighted'
 
 PLAYERS = [
   Human,
   RandomAI,
   MinMaxAlphaBeta,
-  CutOff
+  CutOff,
+  CutOffWeighted
 ]
 
 class GameController
