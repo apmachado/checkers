@@ -114,5 +114,9 @@ class State
     line = lines.at(14)
     @kings_player2 = line.to_i
   end
+
+  def total_pieces
+    pieces_player1 + pieces_player2
+  end
 end
 
