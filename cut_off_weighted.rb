@@ -71,7 +71,28 @@ class CutOffWeighted < BasePLayer
   def eval(state)
     factor = (team == 1) ? 1 : -1
 
-    ((state.kings_player1*2 + (state.pieces_player1 - state.kings_player1)) - (state.kings_player2*2 + (state.pieces_player2 - state.kings_player2)))*factor
+    #((state.kings_player1*2 + (state.pieces_player1 - state.kings_player1)) - (state.kings_player2*2 + (state.pieces_player2 - state.kings_player2)))*factor
+    value1 = (state.kings_player1*10 + (state.pieces_player1 - state.kings_player1)*5)
+    value2 = (state.kings_player2*10 + (state.pieces_player2 - state.kings_player2)*5)
+    i = 0
+    while i < 8 do
+      
+      j = 0
+      while j < 8 do
+        if ((state.table[i][j] == 1) && i.between?(0, 3))
+          value1 += 3
+        end
+
+        if ((state.table[i][j] == 2) && i.between?(4, 7))
+          value2 += 3
+        end
+        j += 1
+      end
+      i += 1
+    end
+
+    finalValue = (value1 - value2)*factor
+    return finalValue
 
   end
 
