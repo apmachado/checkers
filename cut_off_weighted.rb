@@ -5,7 +5,7 @@ class CutOffWeighted < BasePLayer
 
   FIXNUM_MAX = (2**(0.size * 8 -2) -1)
   FIXNUM_MIN = -(2**(0.size * 8 -2))
-  DEPTH = 4
+  DEPTH = 5
 
   def initialize(team, rules)
     @actions_stack = []
@@ -70,30 +70,51 @@ class CutOffWeighted < BasePLayer
 
   def eval(state)
     factor = (team == 1) ? 1 : -1
+    if state.total_pieces > 12
+      ((state.kings_player1*2 + (state.pieces_player1 - state.kings_player1)) - (state.kings_player2*2 + (state.pieces_player2 - state.kings_player2)))*factor
 
-    #((state.kings_player1*2 + (state.pieces_player1 - state.kings_player1)) - (state.kings_player2*2 + (state.pieces_player2 - state.kings_player2)))*factor
-    value1 = (state.kings_player1*10 + (state.pieces_player1 - state.kings_player1)*5)
-    value2 = (state.kings_player2*10 + (state.pieces_player2 - state.kings_player2)*5)
-    i = 0
-    while i < 8 do
-      
-      j = 0
-      while j < 8 do
-        if ((state.table[i][j] == 1) && i.between?(0, 3))
-          value1 += 3
+    else
+      value1, value2 = 0, 0
+      kings_weights = [0, 4, 3, 2, 1]
+      position = [ [0, 4, -1, 4, -1, 4, -1, 4],
+                   [4, -1, 3, -1, 3, -1, 3, 0],
+                   [4, 3, -1, 2, -1, 2, -1, 4],
+                   [4, -1, 2, -1, 1, -1, 3, 0],
+                   [0, 3, -1, 1, -1, 2, -1, 4],
+                   [1, -1, 2, -1, 2, -1, 3, 0],
+                   [4, 3, -1, 3, -1, 3, -1, 4],
+                   [4, -1, 4, -1, 4, -1, 4, 0]]
+        i = 0
+        while i < 8 do
+
+          j = 0
+          while j < 8 do
+            if state.table[i][j] == 1
+              value1 += 5*position[i][j]
+            end
+
+            if state.table[i][j] == 3
+              value1 += 15*kings_weights[position[i][j]]
+            end
+
+            if state.table[i][j] == 2
+              value2 += 5*position[i][j]
+            end
+
+            if state.table[i][j] == 4
+              value2 += 15*kings_weights[position[i][j]]
+            end
+            j += 1
+          end
+          i += 1
         end
 
-        if ((state.table[i][j] == 2) && i.between?(4, 7))
-          value2 += 3
-        end
-        j += 1
-      end
-      i += 1
+
+      value1 = FIXNUM_MAX if (value2== 0) || (rules.table_stuck(state) && state.turn==2)
+      value2 = FIXNUM_MAX if (value1 == 0) || (rules.table_stuck(state) && state.turn== 1)
+
+      (value1 - value2)*factor
     end
-
-    finalValue = (value1 - value2)*factor
-    return finalValue
-
   end
 
   def cut_off?(depth)
