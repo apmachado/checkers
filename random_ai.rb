@@ -10,6 +10,8 @@ class RandomAI < BasePLayer
   def get_move(state)
     actions = possibles_moves(state)
     sleep DELAY
+
+    # scolhe uma jogada aleatoria a partir das possiveis acoes
     actions[Random.rand(0...actions.size)]
   end
 end

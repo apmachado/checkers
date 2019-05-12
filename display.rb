@@ -1,5 +1,6 @@
 require_relative 'game_controller'
 
+# classe que desenha o tabuleiro de acordo com o estado
 class Display
   attr_accessor  :state, :player
 
