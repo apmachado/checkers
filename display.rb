@@ -28,6 +28,8 @@ class Display
   def draw(state, player)
     @state = state
     @player = player
+
+    system("clear")
     print "=" * 40
     print "\n"
 
