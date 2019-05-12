@@ -15,7 +15,7 @@ class CutOff < BasePLayer
 
   def get_move(state)
     value = min_max(state, FIXNUM_MIN, FIXNUM_MAX, 0, true)
-    result_action
+    result_action.sample
   end
 
   def min_max(state, alpah, beta, depth, first = false)
@@ -34,8 +34,11 @@ class CutOff < BasePLayer
       v = min_max(next_state, alpha, beta, depth + 1)
       if v > value
         value = v
-        @result_action = action if first
+        @result_action = [action] if first
+      elsif v == value
+        @result_action.push(action) if first
       end
+
       if value >= beta
         actions_stack.pop
         return value
@@ -55,7 +58,9 @@ class CutOff < BasePLayer
       v = min_max(next_state, alpha, beta, depth + 1)
       if v < value
         value = v
-        @result_action = action if first
+        @result_action = [action] if first
+      elsif v == value
+        @result_action.push(action) if first
       end
       if value <= alpha
         actions_stack.pop
