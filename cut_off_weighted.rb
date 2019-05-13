@@ -5,7 +5,7 @@ class CutOffWeighted < BasePLayer
 
   FIXNUM_MAX = (2**(0.size * 8 -2) -1)
   FIXNUM_MIN = -(2**(0.size * 8 -2))
-  DEPTH = 5
+  DEPTH = 4
 
   def initialize(team, rules)
     @actions_stack = []
@@ -32,9 +32,11 @@ class CutOffWeighted < BasePLayer
     actions_stack.last.each do |action|
       next_state = rules.apply_action(state, action)
       v = min_max(next_state, alpha, beta, depth + 1)
-      if v > value || (v==value && next_state.total_pieces < state.total_pieces)
+      if v > value
         value = v
         @result_action = action if first
+      elsif v == value
+        @result_action.push(action) if first
       end
       if value >= beta
         actions_stack.pop
@@ -56,6 +58,8 @@ class CutOffWeighted < BasePLayer
       if v < value
         value = v
         @result_action = action if first
+      elsif v == value
+        @result_action.push(action) if first
       end
       if value <= alpha
         actions_stack.pop
@@ -70,9 +74,10 @@ class CutOffWeighted < BasePLayer
 
   def eval(state)
     factor = (team == 1) ? 1 : -1
-    if state.total_pieces > 12
-      ((state.kings_player1*2 + (state.pieces_player1 - state.kings_player1)) - (state.kings_player2*2 + (state.pieces_player2 - state.kings_player2)))*factor
+    diff = ((state.kings_player1*2 + (state.pieces_player1 - state.kings_player1)) - (state.kings_player2*2 + (state.pieces_player2 - state.kings_player2)))*factor
 
+    if diff != 0
+      return diff
     else
       value1, value2 = 0, 0
       kings_weights = [0, 4, 3, 2, 1]
@@ -94,7 +99,7 @@ class CutOffWeighted < BasePLayer
             end
 
             if state.table[i][j] == 3
-              value1 += 15*kings_weights[position[i][j]]
+              value1 += 10*kings_weights[position[i][j]]
             end
 
             if state.table[i][j] == 2
@@ -102,7 +107,7 @@ class CutOffWeighted < BasePLayer
             end
 
             if state.table[i][j] == 4
-              value2 += 15*kings_weights[position[i][j]]
+              value2 += 10*kings_weights[position[i][j]]
             end
             j += 1
           end
